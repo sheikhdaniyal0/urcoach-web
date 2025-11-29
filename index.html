@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrCoach | The Future of Cricket</title>
+   
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            gold: '#FFD700',
+                            dark: '#050505',
+                            card: '#111111',
+                            accent: '#E63946',
+                            text: '#E0E0E0'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+
+    <style>
+        body { background-color: #050505; color: #fff; overflow-x: hidden; }
+       
+        /* Premium Gradients */
+        .gold-gradient { background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .red-gradient { background: linear-gradient(135deg, #FF4D4D 0%, #8B0000 100%); }
+       
+        /* 3D Ball */
+        .ball-scene { perspective: 1000px; width: 300px; height: 300px; }
+        .ball {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff4d4d, #8b0000);
+            box-shadow: inset -10px -10px 40px rgba(0,0,0,0.8), 0 0 50px rgba(230, 57, 70, 0.4);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .seam {
+            position: absolute; top: 0; left: 50%; width: 100%; height: 100%;
+            border: 4px dashed rgba(255,255,255,0.8); border-radius: 50%;
+            transform: translateX(-50%) rotateY(45deg);
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .ball-logo {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) translateZ(151px);
+            font-family: 'Orbitron'; font-weight: bold; color: white; font-size: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            opacity: 0.9;
+        }
+
+
+        /* Glass Cards */
+        .glass { background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+        .glass:hover { border-color: #FFD700; transform: translateY(-5px); transition: all 0.3s ease; }
+
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #B8860B; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased">
+
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-trophy text-brand-gold text-2xl"></i>
+                <span class="font-tech text-2xl font-bold tracking-widest text-white">UR<span class="text-brand-gold">COACH</span></span>
+            </div>
+           
+            <div class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-gray-400">
+                <a href="#home" class="hover:text-white transition">Home</a>
+                <a href="#about" class="hover:text-white transition">Vision</a>
+                <a href="#tech" class="hover:text-white transition">Tech</a>
+                <a href="#demo" class="hover:text-white transition">Demo</a>
+                <a href="#media" class="hover:text-white transition">Media</a>
+            </div>
+
+
+            <button class="bg-gradient-to-r from-yellow-600 to-yellow-800 text-white px-6 py-2 rounded font-bold uppercase text-xs tracking-wider hover:scale-105 transition shadow-lg">
+                Pre-Order
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Video Background (Online Source) -->
+        <div class="absolute inset-0 z-0">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover opacity-30">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-cricket-player-bowling-a-ball-in-a-stadium-44755-large.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black"></div>
+        </div>
+
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center pt-20">
+            <!-- Text -->
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded border border-brand-gold/50 bg-yellow-900/20">
+                    <span class="w-2 h-2 bg-brand-gold rounded-full animate-pulse"></span>
+                    <span class="text-brand-gold text-xs font-bold tracking-widest uppercase">System Online</span>
+                </div>
+               
+                <h1 class="font-tech text-5xl md:text-7xl font-black leading-none text-white">
+                    ELITE <br>
+                    <span class="gold-gradient">PERFORMANCE.</span>
+                </h1>
+               
+                <p class="text-lg text-gray-300 max-w-lg leading-relaxed border-l-4 border-brand-gold pl-6">
+                    Pakistan's first AI-powered cricket ball. Military-grade sensors track <span class="text-white font-bold">Spin, Speed & Drift</span> in real-time.
+                </p>
+               
+                <div class="flex gap-4 pt-4">
+                    <button onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})" class="bg-white text-black px-8 py-4 font-bold rounded flex items-center gap-2 hover:bg-gray-200 transition shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                        <i class="fa-solid fa-play"></i> LIVE DEMO
+                    </button>
+                    <button onclick="document.getElementById('tech').scrollIntoView({behavior:'smooth'})" class="glass text-white px-8 py-4 font-bold rounded flex items-center gap-2 border border-white/20">
+                        <i class="fa-solid fa-microchip"></i> SPECS
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- 3D Ball Visual -->
+            <div class="flex justify-center items-center">
+                <div class="ball-scene">
+                    <div class="ball">
+                        <div class="seam"></div>
+                        <div class="ball-logo">URCOACH</div>
+                        <!-- Shine -->
+                        <div class="absolute top-1/4 left-1/4 w-10 h-10 bg-white opacity-20 blur-xl rounded-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- MISSION & VISION -->
+    <section id="about" class="py-24 bg-brand-dark border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="glass p-8 rounded-xl relative overflow-hidden group">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-brand-gold/10 rounded-full blur-3xl group-hover:bg-brand-gold/20 transition"></div>
+                    <h3 class="font-tech text-3xl font-bold text-white mb-4"><i class="fa-solid fa-eye text-brand-gold mr-3"></i>VISION</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        To revolutionize grassroots cricket in Pakistan by making professional-grade analytics accessible to every young talent, bridging the gap between street cricket and the stadium.
+                    </p>
+                </div>
+                <div class="glass p-8 rounded-xl relative overflow-hidden group">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-brand-accent/10 rounded-full blur-3xl group-hover:bg-brand-accent/20 transition"></div>
+                    <h3 class="font-tech text-3xl font-bold text-white mb-4"><i class="fa-solid fa-rocket text-brand-accent mr-3"></i>MISSION</h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        Deploying 10,000 smart units across academies by 2026. Empowering coaches with data, not just intuition, to nurture the next generation of legends.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- TECH SPECS -->
+    <section id="tech" class="py-24 bg-black relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="font-tech text-5xl font-bold mb-4">HARDWARE <span class="gold-gradient">CORE</span></h2>
+                <div class="h-1 w-20 bg-brand-gold mx-auto rounded-full"></div>
+            </div>
+
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass p-8 rounded-xl text-center group">
+                    <div class="w-20 h-20 bg-brand-card rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10 group-hover:border-brand-gold transition">
+                        <i class="fa-solid fa-microchip text-3xl text-brand-gold"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">9-AXIS IMU</h3>
+                    <p class="text-gray-500 text-sm">Industrial grade gyroscope & accelerometer tracking 1000 data points per second.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass p-8 rounded-xl text-center group">
+                    <div class="w-20 h-20 bg-brand-card rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10 group-hover:border-brand-accent transition">
+                        <i class="fa-solid fa-battery-full text-3xl text-brand-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">8-HOUR POWER</h3>
+                    <p class="text-gray-500 text-sm">High-density Li-ion cell. Wireless charging cradle included. Lasts a full test day.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass p-8 rounded-xl text-center group">
+                    <div class="w-20 h-20 bg-brand-card rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10 group-hover:border-blue-500 transition">
+                        <i class="fa-brands fa-bluetooth-b text-3xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">ZERO LATENCY</h3>
+                    <p class="text-gray-500 text-sm">Bluetooth 5.0 Low Energy. Instant data sync to iOS & Android devices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- LIVE DEMO (FULL) -->
+    <section id="demo" class="py-24 bg-brand-card relative border-y border-white/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-brand-gold font-bold tracking-widest uppercase text-xs border border-brand-gold px-3 py-1 rounded-full">Interactive Lab</span>
+                <h2 class="font-tech text-5xl font-bold mt-4 text-white">VIRTUAL NETS</h2>
+            </div>
+
+
+            <div class="glass rounded-2xl overflow-hidden shadow-2xl grid md:grid-cols-3 border border-white/10">
+                <!-- Controls -->
+                <div class="p-8 border-r border-white/10 bg-black/50">
+                    <h3 class="font-tech text-2xl text-white mb-6">CONFIGURE</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase block mb-2">Bowler</label>
+                            <select id="bowlerType" class="w-full bg-brand-card text-white p-3 rounded border border-white/10 outline-none focus:border-brand-gold">
+                                <option value="Fast">Right Arm Fast</option>
+                                <option value="Spin">Leg Spinner</option>
+                                <option value="Off">Off Spinner</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase block mb-2">Target Zone</label>
+                            <select id="targetZone" class="w-full bg-brand-card text-white p-3 rounded border border-white/10 outline-none focus:border-brand-gold">
+                                <option value="Yorker">Yorker</option>
+                                <option value="Bouncer">Bouncer</option>
+                                <option value="Good">Good Length</option>
+                            </select>
+                        </div>
+                        <button onclick="runSim()" class="w-full bg-gradient-to-r from-brand-gold to-yellow-700 text-white font-bold py-4 rounded shadow-lg transition hover:scale-105 active:scale-95">
+                            <i class="fa-solid fa-bolt mr-2"></i> BOWL BALL
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- Terminal -->
+                <div class="md:col-span-2 p-8 bg-black relative flex flex-col justify-center min-h-[450px]">
+                    <!-- Header -->
+                    <div class="absolute top-0 left-0 w-full p-4 border-b border-white/10 flex justify-between items-center bg-brand-card">
+                        <span class="text-xs font-mono text-gray-500">LIVE_FEED_v3.0</span>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-xs font-bold text-green-500">CONNECTED</span>
+                        </div>
+                    </div>
+
+
+                    <!-- Idle -->
+                    <div id="sim-idle" class="text-center text-gray-700">
+                        <i class="fa-solid fa-wifi text-6xl mb-4 opacity-20"></i>
+                        <p class="font-mono tracking-widest text-sm">WAITING FOR DELIVERY...</p>
+                    </div>
+
+
+                    <!-- Loading -->
+                    <div id="sim-loading" class="hidden absolute inset-0 bg-black/95 z-20 flex flex-col items-center justify-center">
+                        <div class="w-12 h-12 border-4 border-brand-gold border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p class="text-brand-gold text-xs tracking-widest font-bold">PROCESSING...</p>
+                    </div>
+
+
+                    <!-- Result -->
+                    <div id="sim-result" class="hidden w-full space-y-8 mt-10">
+                        <div class="flex justify-between items-end border-b border-white/10 pb-6">
+                            <div>
+                                <p class="font-mono text-gray-500 text-xs mb-1">RELEASE SPEED</p>
+                                <div class="text-7xl font-tech font-bold text-white leading-none" id="res-speed">--</div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-mono text-gray-500 text-xs mb-1">REV RATE</p>
+                                <div class="text-5xl font-tech font-bold text-brand-gold leading-none" id="res-rpm">--</div>
+                            </div>
+                        </div>
+                        <div class="bg-brand-gold/10 p-6 rounded border-l-4 border-brand-gold">
+                            <h4 class="text-brand-gold text-xs font-bold uppercase mb-2 tracking-widest"><i class="fa-solid fa-robot mr-2"></i>AI COACH INSIGHT</h4>
+                            <p class="text-gray-300 leading-relaxed font-mono text-sm" id="res-text">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- MEDIA GALLERY (REAL IMAGES) -->
+    <section id="media" class="py-24 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-tech text-5xl font-bold mb-12 text-center text-white">PROJECT <span class="gold-gradient">GALLERY</span></h2>
+           
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Img 1 -->
+                <div class="group relative h-64 overflow-hidden rounded-xl border border-white/10 cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1593341646261-7294cd2a259a?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <p class="text-white font-bold font-tech text-lg">HARDWARE</p>
+                        <p class="text-xs text-brand-gold">Internal Sensors</p>
+                    </div>
+                </div>
+                <!-- Img 2 -->
+                <div class="group relative h-64 overflow-hidden rounded-xl border border-white/10 cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1624194686522-3798544e39d9?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <p class="text-white font-bold font-tech text-lg">SOFTWARE</p>
+                        <p class="text-xs text-blue-400">App Dashboard</p>
+                    </div>
+                </div>
+                <!-- Img 3 -->
+                <div class="group relative h-64 overflow-hidden rounded-xl border border-white/10 cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1512719994953-eabf50895df7?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <p class="text-white font-bold font-tech text-lg">TESTING</p>
+                        <p class="text-xs text-brand-accent">Production Line</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer id="footer" class="bg-brand-card py-16 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-trophy text-brand-gold text-2xl"></i>
+                    <span class="font-tech text-2xl font-bold tracking-wider text-white">URCOACH</span>
+                </div>
+                <p class="text-gray-500 text-sm">Empowering the next generation of Pakistani cricketers.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 font-tech tracking-widest">TEAM LEAD</h4>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-brand-dark rounded flex items-center justify-center text-white font-bold border border-white/10">MD</div>
+                    <div>
+                        <p class="text-white font-bold text-sm">Muhammad Daniyal</p>
+                        <p class="text-gray-500 text-xs">SP22-BSAF-0038</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4 font-tech tracking-widest">CONNECT</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fa-brands fa-linkedin text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-brand-gold transition"><i class="fa-brands fa-github text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-green-500 transition"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-white/5 mt-12 pt-8 text-center text-xs text-gray-600">
+            &copy; 2025 UrCoach Systems. Supervised by Sir Ishfaque Ahmed.
+        </div>
+    </footer>
+
+
+    <!-- OFFLINE CHATBOT -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button onclick="toggleChat()" class="w-14 h-14 bg-brand-gold rounded-full shadow-lg flex items-center justify-center text-black text-xl hover:scale-110 transition duration-300">
+            <i class="fa-solid fa-comment-dots"></i>
+        </button>
+       
+        <div id="chat-ui" class="chat-hidden absolute bottom-20 right-0 w-80 bg-brand-dark border border-gray-700 rounded-xl overflow-hidden shadow-2xl origin-bottom-right transition-all">
+            <div class="bg-brand-gold p-3 flex justify-between items-center">
+                <span class="text-black font-bold text-sm font-tech">URCOACH ASSISTANT</span>
+                <button onclick="toggleChat()"><i class="fa-solid fa-xmark text-black"></i></button>
+            </div>
+            <div id="chat-msgs" class="h-64 p-4 overflow-y-auto space-y-3 bg-black text-white text-sm">
+                <div class="bg-gray-800 p-3 rounded-lg rounded-tl-none text-gray-300 border border-gray-700">
+                    Hi! I work offline. Ask me about Price, Specs, or Battery.
+                </div>
+            </div>
+            <div class="p-3 bg-brand-card border-t border-gray-800 flex gap-2">
+                <input id="chat-input" type="text" placeholder="Type..." class="w-full bg-black text-white text-xs px-3 py-2 rounded outline-none border border-gray-700 focus:border-brand-gold" onkeypress="if(event.key==='Enter') sendMsg()">
+                <button onclick="sendMsg()" class="text-brand-gold hover:text-white"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCRIPTS -->
+    <script>
+        // SIMULATION
+        function runSim() {
+            const idle = document.getElementById('sim-idle');
+            const loading = document.getElementById('sim-loading');
+            const result = document.getElementById('sim-result');
+            const type = document.getElementById('bowlerType').value;
+           
+            idle.classList.add('hidden');
+            result.classList.add('hidden');
+            loading.classList.remove('hidden');
+           
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                result.classList.remove('hidden');
+               
+                const isFast = type === 'Fast';
+                const speed = isFast ? Math.floor(Math.random()*12 + 138) : Math.floor(Math.random()*10 + 85);
+                const rpm = isFast ? Math.floor(Math.random()*200 + 600) : Math.floor(Math.random()*400 + 2200);
+               
+                document.getElementById('res-speed').innerHTML = `${speed} <span class="text-2xl text-gray-500">KM/H</span>`;
+                document.getElementById('res-rpm').innerHTML = `${rpm} <span class="text-xl text-gray-500">RPM</span>`;
+               
+                const text = isFast
+                    ? `Velocity is elite. Seam position steady. Suggest increasing follow-through for extra bounce.`
+                    : `Excellent drift generated. RPM in top 5%. Sharp turn expected off the pitch.`;
+                document.getElementById('res-text').innerText = text;
+            }, 1000);
+        }
+
+
+        // CHAT
+        function toggleChat() { document.getElementById('chat-ui').classList.toggle('hidden'); }
+       
+        function sendMsg() {
+            const input = document.getElementById('chat-input');
+            const area = document.getElementById('chat-msgs');
+            const text = input.value.toLowerCase();
+            if(!text) return;
+
+
+            area.innerHTML += `<div class="bg-brand-gold/20 border border-brand-gold/50 p-3 rounded-lg rounded-tr-none text-right mb-2">${input.value}</div>`;
+            input.value = '';
+            area.scrollTop = area.scrollHeight;
+
+
+            setTimeout(() => {
+                let reply = "Contact Muhammad Daniyal for details.";
+                if(text.includes('price')) reply = "Retail Price: PKR 8,000.";
+                else if(text.includes('battery')) reply = "8 Hours (Wireless Charging).";
+                else if(text.includes('spec')) reply = "9-Axis IMU Sensors, Bluetooth 5.0.";
+               
+                area.innerHTML += `<div class="bg-gray-800 p-3 rounded-lg rounded-tl-none text-gray-300 border border-gray-700 mb-2">${reply}</div>`;
+                area.scrollTop = area.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
+
+
+
